@@ -2,6 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 
+
 //movie struct definition
 struct movie {
     char name[50];
@@ -13,7 +14,9 @@ struct movie {
     int renter;
     char dueDate[15];
     struct movie *next;
+    struct movie *prevEntry;
 };
+
 
 struct movie *NewMovie();
 void addMovie(struct movie *start);
@@ -31,6 +34,8 @@ struct movie *exitProgram(struct movie *start);
 
 void showMainMenu();
 void showLoadMenu();
+
+
 
 int main () {
     struct movie *start = NULL;
@@ -85,6 +90,8 @@ int main () {
     return 0;
 }
 
+
+// New Movie
 struct movie *NewMovie() {
     struct movie *new = NULL;
     int ch;
@@ -131,24 +138,43 @@ struct movie *NewMovie() {
     
 
     new->next = NULL;
+    new->prevEntry = NULL;
 
     return new;
 }
 
+
+
+// Add Movie
 void addMovie(struct movie *start) {
     fputs("\n\nAdding new node...", stdout);
 
     //scroll to last node
     struct movie *current = start;
+
     while (current->next != NULL)
     {
         current = current->next;
     }
 
-    current->next = NewMovie();
+    // Now that we are at the end of the node list we can make a new node entry
+
+    struct movie *newEntry = NewMovie();
+
+
+    // Updatess
+    current->next = newEntry;
+    newEntry->prevEntry = current;
+    newEntry->next = NULL;
+
+
 }
 
+
+
+
 void browseMovies(struct movie *start) {
+
     fputs("\n\nBrowsing through entries...", stdout);
     char choice;
     choice = 'Y';

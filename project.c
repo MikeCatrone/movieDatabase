@@ -176,15 +176,16 @@ void addMovie(struct movie *start) {
 void browseMovies(struct movie *start) {
 
     fputs("\n\nBrowsing through entries...", stdout);
+    
     char choice;
-    choice = 'Y';
+    choice = 'z';
     int ch;
     int count = 0;
 
     struct movie *current = start;
 
     while (current != NULL && choice != 'N' && choice != 'n') {
-        count++;
+
         printf("\n\nMovie #%d\n", count);
 
         showMovie(current);
@@ -192,7 +193,7 @@ void browseMovies(struct movie *start) {
         current = current->next;
 
         if (current != NULL) {
-            fputs("\nBrowse to next entry (Y/N)?", stdout);
+            fputs("\nBrowse to next entry (Y/N) or previous(P)?", stdout);
             choice = fgetc(stdin);
             while ((ch = getchar()) != '\n' && ch != EOF);
         } else {
@@ -202,6 +203,7 @@ void browseMovies(struct movie *start) {
             while ((ch = getchar()) != '\n' && ch != EOF);
             break;
         }
+
     }
 
 }

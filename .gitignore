@@ -1,0 +1,23 @@
+# -----------------------------------------------------------------------------
+# Text starting with a hashtag is a comment (ignored by Git)
+# -----------------------------------------------------------------------------
+
+# Ignore specific folders (always end folder names with a slash)
+.vscode/
+node_modules/
+dist/
+build/
+
+# Ignore specific files
+.env
+config.local.json
+
+# Ignore all files with a specific extension (using the * wildcard)
+*.log
+*.tmp
+*.DS_Store
+
+# Ignore an entire directory's contents, but keep one specific file
+# (The exclamation mark '!' negates the rule)
+logs/*
+!logs/.gitkeep

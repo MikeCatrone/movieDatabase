@@ -2,7 +2,6 @@
 #include<string.h>
 #include<stdlib.h>
 
-
 //movie struct definition
 struct movie {
     char name[50];
@@ -14,11 +13,7 @@ struct movie {
     int renter;
     char dueDate[15];
     struct movie *next;
-    struct movie *prevEntry; // For previous traversal
-
 };
-
-
 
 struct movie *NewMovie();
 void addMovie(struct movie *start);
@@ -36,9 +31,6 @@ struct movie *exitProgram(struct movie *start);
 
 void showMainMenu();
 void showLoadMenu();
-
-
-
 
 int main () {
     struct movie *start = NULL;
@@ -139,77 +131,45 @@ struct movie *NewMovie() {
     
 
     new->next = NULL;
-    new->prevEntry = NULL;
 
     return new;
 }
 
-
-// Mike Edit
 void addMovie(struct movie *start) {
     fputs("\n\nAdding new node...", stdout);
 
     //scroll to last node
     struct movie *current = start;
-    
     while (current->next != NULL)
     {
         current = current->next;
     }
 
-    // new node entry
-    struct movie *newEntry = NewMovie();
-    
-    current->next = newEntry;
-    newEntry->prevEntry = current;
-    newEntry->next = NULL;
-    
-    
+    current->next = NewMovie();
 }
-
-
 
 void browseMovies(struct movie *start) {
     fputs("\n\nBrowsing through entries...", stdout);
-    char choice = 'Y';
+    char choice;
+    choice = 'Y';
     int ch;
     int count = 0;
 
     struct movie *current = start;
 
     while (current != NULL && choice != 'N' && choice != 'n') {
-        // 1. Display the current movie immediately
         count++;
         printf("\n\nMovie #%d\n", count);
+
         showMovie(current);
 
-        // 2. Ask the user what they want to do NEXT
-        fputs("\nBrowse to next entry (Y/N) Previous (P)?", stdout);
-        choice = fgetc(stdin);
-        while ((ch = getchar()) != '\n' && ch != EOF); // Clear the buffer
+        current = current->next;
 
-        // 3. If they want to exit, break out right now
-        if (choice == 'N' || choice == 'n') {
-            break;
-        }
-
-        // 4. Move the pointer based on their FRESH choice
-        if (choice == 'P' || choice == 'p') {
-            // Guard clause: Don't go back if we are at the very beginning
-            if (current->prevEntry == NULL) {
-                puts("\nAlready at first movie");
-                count--; // Adjust count so it doesn't artificially inflate
-                continue; // Skip the rest of the loop and show the same movie again
-            }
-            current = current->prevEntry;
-            printf("Moving to previous entry...\n");
+        if (current != NULL) {
+            fputs("\nBrowse to next entry (Y/N)?", stdout);
+            choice = fgetc(stdin);
+            while ((ch = getchar()) != '\n' && ch != EOF);
         } else {
-            current = current->next;
-            printf("Moving to next entry...\n");
-        }
-
-        // 5. Check if we hit the end of the database
-        if (current == NULL) {
             puts("\nEnd Of Database");
             puts("\nEnter 'C' to return to the menu");
             choice = fgetc(stdin);
@@ -217,8 +177,8 @@ void browseMovies(struct movie *start) {
             break;
         }
     }
-}
 
+}
 
 void showMovie(struct movie *current) {
     if (current != NULL) {
@@ -259,8 +219,6 @@ void changeMovie(struct movie *start) {
     puts("\nFinished editing...\n");
 }
 
-
-// Edit Movie
 void editMovie(struct movie *current) {
     puts("\nYou have selected the following movie:\n");
     char choice = 'N';
@@ -343,8 +301,6 @@ void editMovie(struct movie *current) {
 
 }
 
-
-// Delete
 struct movie *deleteMovie(struct movie *start) {
     fputs("\n\nDelete entry...", stdout);
     int position, counter = 1;
@@ -406,8 +362,6 @@ struct movie *deleteMovie(struct movie *start) {
     return start;
 }
 
-
-// Save
 void save(struct movie *start, FILE *p_file) {
     fputs("\n\nSaving data...", stdout);
 
@@ -442,8 +396,6 @@ void save(struct movie *start, FILE *p_file) {
 
 }
 
-
-// Load File
 struct movie *load(FILE *p_file) {
     fputs("\n\nLoading data\n", stdout);
 
@@ -490,16 +442,12 @@ struct movie *load(FILE *p_file) {
     return start;
 }
 
-
-// Sort
 struct movie *sort(struct movie *start) {
     fputs("\n\nSorting data", stdout);
 
     return start;
 }
 
-
-// Search Movie
 void searchMovie(struct movie *start) {
     fputs("\n\nSearching for movie", stdout);
 
@@ -522,8 +470,6 @@ void searchMovie(struct movie *start) {
     printf("There were %d match(es).\n", matches);
 }
 
-
-// Earnings
 float calculateEarnings(struct movie *current) {
     fputs("\n\nCalculating for earnings...", stdout);
 
@@ -538,9 +484,6 @@ float calculateEarnings(struct movie *current) {
     return total;
 }
 
-
-
-// Main Menu
 void showMainMenu() {
         puts("\nPlease choose an option:");
         puts("1. Add new entry");
@@ -554,17 +497,12 @@ void showMainMenu() {
         puts("9. Exit");
 }
 
-
-// Load Menu
 void showLoadMenu() {
     puts("\nWould you like to:");
     puts("1. Load a previously saved library database");
     puts("2. Load a new database\n");
 }
 
-
-
-// Exit Program
 struct movie *exitProgram(struct movie *start) {
     fputs("\n\nFreeing Memory...", stdout);
 
@@ -580,5 +518,4 @@ struct movie *exitProgram(struct movie *start) {
 
     fputs("\nCleanup complete. Exiting...", stdout);
     return start;
-    
 }

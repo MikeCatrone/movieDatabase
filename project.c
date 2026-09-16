@@ -196,10 +196,10 @@ void browseMovies(struct movie *start) {
 
         // current = current->next;
 
-        if (choice == "y" || choice == "Y") {
+        if (choice == 'y' || choice == 'Y') {
             current = current->next;
 
-        } else if (choice == "p" || choice == "P"){
+        } else if (choice == 'p' || choice == 'P'){
             current = current->prevEntry;
         }
 

@@ -176,7 +176,7 @@ void addMovie(struct movie *start) {
 void browseMovies(struct movie *start) {
 
     fputs("\n\nBrowsing through entries...", stdout);
-    
+
     char choice;
     choice = 'z';
     int ch;
@@ -190,19 +190,27 @@ void browseMovies(struct movie *start) {
 
         showMovie(current);
 
-        current = current->next;
+        fputs("\nBrowse to next entry (Y/N) or previous(P)?", stdout);
+        choice = fgetc(stdin);
+        while ((ch = getchar()) != '\n' && ch != EOF);
 
-        if (current != NULL) {
-            fputs("\nBrowse to next entry (Y/N) or previous(P)?", stdout);
-            choice = fgetc(stdin);
-            while ((ch = getchar()) != '\n' && ch != EOF);
-        } else {
-            puts("\nEnd Of Database");
-            puts("\nEnter 'C' to return to the menu");
-            choice = fgetc(stdin);
-            while ((ch = getchar()) != '\n' && ch != EOF);
-            break;
+        // current = current->next;
+
+        if (choice == "y" || choice == "Y") {
+            current = current->next;
+
+        } else if (choice == "p" || choice == "P"){
+            current = current->prevEntry;
         }
+
+        
+        
+
+            // puts("\nEnd Of Database");
+            // puts("\nEnter 'C' to return to the menu");
+            // choice = fgetc(stdin);
+            // while ((ch = getchar()) != '\n' && ch != EOF);
+            // break;
 
     }
 
